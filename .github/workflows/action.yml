@@ -16,10 +16,10 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet restore .\src\VueCliMiddleware\VueCliMiddleware.csproj
+    # - name: Build
+    #  run: dotnet build --no-restore
+    # - name: Test
+    #  run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack .\src\VueCliMiddleware\VueCliMiddleware.csproj -c Release --output .\src\nupkgs
