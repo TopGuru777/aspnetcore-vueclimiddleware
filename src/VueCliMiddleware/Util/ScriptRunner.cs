@@ -133,15 +133,19 @@ namespace VueCliMiddleware
                 {
                     // NPM tasks commonly emit ANSI colors, but it wouldn't make sense to forward
                     // those to loggers (because a logger isn't necessarily any kind of terminal)
-                    //logger.LogInformation(StripAnsiColors(line).TrimEnd('\n'));
                     // making this console for debug purpose
                     if (line.StartsWith("<s>"))
                     {
-                        Console.Error.WriteLine(line.Substring(3));
+                        line = line.Substring(3);
+                    }
+
+                    if (logger == null)
+                    {
+                        Console.Error.WriteLine(line);
                     }
                     else
                     {
-                        Console.Error.WriteLine(line);
+                        logger.LogInformation(StripAnsiColors(line).TrimEnd('\n'));
                     }
                 }
             };
@@ -150,15 +154,19 @@ namespace VueCliMiddleware
             {
                 if (!string.IsNullOrWhiteSpace(line))
                 {
-                    //logger.LogError(StripAnsiColors(line).TrimEnd('\n'));
                     // making this console for debug purpose
                     if (line.StartsWith("<s>"))
                     {
-                        Console.Error.WriteLine(line.Substring(3));
+                        line = line.Substring(3);
+                    }
+
+                    if (logger == null)
+                    {
+                        Console.Error.WriteLine(line);
                     }
                     else
                     {
-                        Console.Error.WriteLine(line);
+                        logger.LogError(StripAnsiColors(line).TrimEnd('\n'));
                     }
                 }
             };
