@@ -32,10 +32,10 @@ jobs:
       run: dotnet build $env:solution_name -c $env:Configuration --no-restore
       env:
         Configuration: ${{ matrix.configuration }}
-    - name: Test
-      run: dotnet test $env:solution_name -c $env:Configuration --no-build --verbosity normal
-      env:
-        Configuration: ${{ matrix.configuration }}
+    # - name: Test
+    #   run: dotnet test $env:solution_name -c $env:Configuration --no-build --verbosity normal
+    #   env:
+    #     Configuration: ${{ matrix.configuration }}
     - name: Pack
       run: dotnet pack $env:solution_name -c Release --no-restore --output $env:artifact_path
     - name: Artifact
