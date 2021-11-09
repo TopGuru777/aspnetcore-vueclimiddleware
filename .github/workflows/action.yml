@@ -16,27 +16,30 @@ jobs:
       solution_name: ./src/VueCliMiddleware.sln
       artifact_path: ./src/nupkgs
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-      - name: Restore dependencies
-        run: dotnet restore $env:solution_name -c $env:Configuration
-        env:
-          Configuration: ${{ matrix.configuration }}
-      - name: Build
-        run: dotnet build $env:solution_name -c $env:Configuration --no-restore
-        env:
-          Configuration: ${{ matrix.configuration }}
-      - name: Test
-        run: dotnet test $env:solution_name -c $env:Configuration --no-build --verbosity normal
-        env:
-          Configuration: ${{ matrix.configuration }}
-      - name: Pack
-        run: dotnet pack $env:solution_name -c Release --no-restore --output $env:artifact_path
-      - name: Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: nuget-package
-          path: $env:artifact_path/*.nupkg
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore $env:solution_name
+      env:
+        Configuration: ${{ matrix.configuration }}
+    - name: Build
+      run: dotnet build $env:solution_name -c $env:Configuration --no-restore
+      env:
+        Configuration: ${{ matrix.configuration }}
+    - name: Test
+      run: dotnet test $env:solution_name -c $env:Configuration --no-build --verbosity normal
+      env:
+        Configuration: ${{ matrix.configuration }}
+    - name: Pack
+      run: dotnet pack $env:solution_name -c Release --no-restore --output $env:artifact_path
+    - name: Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget-package
+        path: $env:artifact_path/*.nupkg
